@@ -1,0 +1,2 @@
+To debug using nodemon:
+nodemon -r .\node_modules\dotenv\config .\app.js dotenv_config_path=.\.env dotenv_config_debug=true

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="../style.css" />
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+	</head>
+	
+	<body>
+        <script>
+            var books = `<%- books %>`; 
+            
+            const bookData = JSON.parse(books);
+            
+            const keys = ["id", "title", "author", "publisher", "number of pages", "description", "read", 
+                        "created", "updated", "year published"];
+
+            function createTableWithInnerHTML() {
+                let form = '<form method="GET" action="/">';
+                let pageHeader = '<h1>Book Inventory</h1>';
+                let tableHTML = '<table border="1"><tr>';
+                let mainMenuButton = '<input type="submit" id="submit" value="Return to Main Menu" />';
+                let endForm = '</form>';
+
+                Object.keys(bookData[0]).forEach(key => {
+                    // Format the column names
+                    let keyString = key.toString().replaceAll("_"," ");
+                    let keyStringCapitalized = 
+                        keyString.substring(0,1).toUpperCase() + keyString.substring(1,);
+                    tableHTML += `<th>${keyStringCapitalized}</th>`;
+                });
+
+                tableHTML += '</tr>';
+
+                bookData.forEach(item => {
+                    tableHTML += '<tr>';
+                    Object.values(item).forEach(value => {
+                        tableHTML += `<td>${value}</td>`;
+                    });
+                    tableHTML += '</tr>';
+                });
+
+                tableHTML += '</table><br />';
+
+                document.body.innerHTML = form + pageHeader + tableHTML + mainMenuButton + endForm;
+                
+            }
+
+            function setFocus() {
+                document.getElementById("submit").focus();
+            }
+
+            createTableWithInnerHTML();
+            setFocus();
+        </script>
+</body>
+</html>

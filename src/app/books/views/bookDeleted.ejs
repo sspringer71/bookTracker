@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+		<style>
+			h1 {
+				color: red;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<form method="GET" action="/">
+            <div>
+                <h1>
+					Book Id <%=id%> deleted successfully!
+                </h1>
+                <input type="submit" id="submit" value="Return to Main Menu" />
+            </div>
+		</form>
+		<script>
+			$(window).on('load', function() {
+				document.getElementById("submit").focus();
+     		});
+		</script>
+	</body>
+</html>
