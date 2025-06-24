@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../style.css" />
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+	</head>
+	
+	<body>
+        <script type="text/javascript">
+                var addBook = "<%= addRequest %>"; 
+                if( addBook === "true" ) {
+                    document.write("<h1>Your book has been added!</h1>");
+                } else {
+                    document.write("<h1>Your book has been updated!</h1>");
+                }
+                $(window).on('load', function() {
+                    document.getElementById("submit").focus();
+                });
+        </script>
+		<form method="GET" action="/">
+            <div>
+                <label class="field-short">Id:</label> <label class="data"> <%=book.id%> </label> <br/>
+				<label class="field-short">Title:</label> <label class="data"><%=book.title%> </label> <br/>
+				<label class="field-short">Author:</label> <label class="data"><%=book.author%> </label> <br/>
+                <br/>
+                <input type="submit" id="submit" value="Return to Main Menu" />
+            </div>
+		</form>
+	</body>
+</html>

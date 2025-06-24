@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+		<style>
+			h1 {
+				color: red;
+			}
+			label.field {
+				text-align: left;
+				width: 150px;
+				float: left;
+				font-weight: bold;
+				color: #333;
+			}
+			input.data {
+				text-align: left;
+				width: 500px;
+			}
+			input.checkbox {
+				text-align: left;
+				width: 15px;
+				float: left;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Add Book</h1>
+		<form method="POST" action="/books/update">
+            <!-- Id: <input type="number"  min="1" id="id" name="id" /><br /> -->
+			<label class="field">Title: </label> 
+			<input class="data" type="text" id="title" name="title" /><br />
+
+			<label class="field">Author: </label> 
+			<input class="data" type="text" id="author" name="author" /><br />
+
+            <label class="field">Publisher: </label> 
+			<input class="data" type="text" id="publisher" name="publisher" /><br />
+
+            <label class="field">Year Published: </label> 
+			<input type="text" id="year_published" name="year_published" /><br />
+
+            <label class="field">Number of Pages: </label> 
+			<input type="text" id="number_of_pages" name="number_of_pages" /><br />
+
+            <label class="field">Description: </label> 
+			<input class="data" type="text" id="description" name="description" /><br />
+
+            <label class="field">Read: </label> 
+			<input class="checkbox" type="checkbox" id="read" name="read" /><br />
+			<br />
+			<input type="submit" value="Submit" />
+		</form>
+		<script>
+			$(window).on('load', function() {
+				document.getElementById("title").focus();
+     		});
+		</script>
+	</body>
+</html>
