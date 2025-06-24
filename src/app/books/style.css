@@ -1,0 +1,36 @@
+.form-container {
+            width: 100px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+label.field {
+            text-align: left;
+            width: 150px;
+            float: left;
+            font-weight: bold;
+            color: #333;
+        }
+label.field-short {
+            text-align: left;
+            width: 100px;
+            float: left;
+            font-weight: bold;
+            color: #333;
+        }
+label.data {
+            text-align: left;
+            min-width: 500px;
+            float: left;
+            font-weight: bold;
+        }
+label.input-data {
+            text-align: left;
+            width: 500px;
+            float: left;
+        }
+h1 {
+  color: red;
+}
