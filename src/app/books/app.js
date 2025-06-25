@@ -39,6 +39,59 @@ async function updateBookById(id, title, author, number_of_pages, publisher, yea
         .select();
 }
 
+async function selectBooksByRead(read) {
+    return supabase
+        .from('books')
+        .select('id,title,author,publisher,year_published,number_of_pages,description,read')
+        .eq('read', read)
+        .order('id');
+}
+
+async function selectBooksWithOrder(column) {
+    return supabase
+        .from('books')
+        .select('id,title,author,publisher,year_published,number_of_pages,description,read')
+        .order(column);
+}
+
+async function formatData(data) {
+    // Render "nulls" as empty strings
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].description == null) {
+            (data[i].description = "")
+        }
+        if (data[i].year_published == null) {
+            (data[i].year_published = "")
+        }
+        if (data[i].publisher == null) {
+            (data[i].publisher = "")
+        }
+    }
+}
+
+async function showBooksByRead(req, res, read) {
+    var getBooksQuery = selectBooksByRead(read);
+    //     .from('books')
+    //     .select('id,title,author,publisher,year_published,number_of_pages,description,read')
+    //     .eq('read', read)
+    //     .order('id');
+
+    const { data, error} = await getBooksQuery;
+    if (error) {
+        if ("The result contains 0 rows" === error.details) {
+            return res.status(404).json({error: `No records found.`});
+        } else {
+            return res.status(500).json({error: error.message});
+        }
+    }
+    
+    // Clean up the data (ex: suppressing the display of "nulls")
+    formatData(data);
+
+    res.render('bookShowAll', {books: JSON.stringify(data)});
+    
+}
+
 function convertToNumber(num) {
     return isNaN(num) ? null : parseInt(num, 10);
 }
@@ -104,10 +157,7 @@ app.get('/books', async(req, res) => {
 
     // If id not provided retrieve all books else retrieve the record matching the id.
     if (!id) {
-        getBooksQuery = supabase
-            .from('books')
-            .select('id,title,author,publisher,year_published,number_of_pages,description,read')
-            .order('id');
+        getBooksQuery = selectBooksWithOrder('id');
     } else {
         if (isNaN(id)) {
             return res.status(400).json({ error: 'Non-numeric id was entered.'});
@@ -118,30 +168,70 @@ app.get('/books', async(req, res) => {
     const { data, error} = await getBooksQuery;
     if (error) {
         if ("The result contains 0 rows" === error.details) {
-            return res.status(404).json({error: `ID ${id} not found.`});
+            if (id) {
+                return res.status(404).json({error: `ID ${id} not found.`});
+            } else {
+                return res.status(404).json({error: `No records found.`});
+            }
         } else {
             return res.status(500).json({error: error.message});
         }
     }
-    
-    // Render "nulls" as empty strings
-    for (let i = 0; i < data.length; i++) {
-        if (data[i].description == null) {
-            (data[i].description = "")
-        }
-        if (data[i].year_published == null) {
-            (data[i].year_published = "")
-        }
-        if (data[i].publisher == null) {
-            (data[i].publisher = "")
-        }
-    }
+
+    // Clean up the data (ex: suppressing the display of "nulls")
+    formatData(data);
 
     if (id) {
         res.render('bookShowOne', {book: data});
     } else {
         res.render('bookShowAll', {books: JSON.stringify(data)});
     }
+});
+
+app.get('/books/sortTitle', async(req, res) => {
+    const id = req.query.id;
+    var getBooksQuery = selectBooksWithOrder('title');
+
+    const { data, error} = await getBooksQuery;
+    if (error) {
+        if ("The result contains 0 rows" === error.details) {
+            return res.status(404).json({error: `No records found.`});
+        } else {
+            return res.status(500).json({error: error.message});
+        }
+    }
+    
+    // Clean up the data (ex: suppressing the display of "nulls")
+    formatData(data);
+
+    res.render('bookShowAll', {books: JSON.stringify(data)});
+});
+
+app.get('/books/sortAuthor', async(req, res) => {
+    const id = req.query.id;
+    var getBooksQuery = selectBooksWithOrder('author');
+
+    const { data, error} = await getBooksQuery;
+    if (error) {
+        if ("The result contains 0 rows" === error.details) {
+            return res.status(404).json({error: `No records found.`});
+        } else {
+            return res.status(500).json({error: error.message});
+        }
+    }
+    
+    // Clean up the data (ex: suppressing the display of "nulls")
+    formatData(data);
+
+    res.render('bookShowAll', {books: JSON.stringify(data)});
+});
+
+app.get('/books/filterRead/', async(req, res) => {
+    showBooksByRead(req, res, 'true');
+});
+
+app.get('/books/filterUnread/', async(req, res) => {
+    showBooksByRead(req, res, 'false');
 });
 
 app.post('/books/update', urlencoderParser, async(req, res, next) => {

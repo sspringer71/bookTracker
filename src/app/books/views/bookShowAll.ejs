@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link rel="stylesheet" href="../style.css" />
 		<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+        <style>
+            h1 {
+                color: red;
+            }	
+            input.button {
+                margin-right: 30px;
+                margin-bottom: 20px;
+            }
+        </style>
 	</head>
 	
 	<body>
@@ -11,18 +19,27 @@
             
             const bookData = JSON.parse(books);
             
-            const keys = ["id", "title", "author", "publisher", "number of pages", "description", "read", 
-                        "created", "updated", "year published"];
+            // const keys = ["id", "title", "author", "publisher", "number of pages", "description", "read", 
+            //             "created", "updated", "year published"];
 
             function createTableWithInnerHTML() {
-                let form = '<form method="GET" action="/">';
-                let pageHeader = '<h1>Book Inventory</h1>';
+                let tableForm = '<form method="GET" action="/">';
+                let buttonsForm = '<form method="GET" action="/books/">';
+                let pageHeader = '<h1>Book Tracker</h1>';
                 let tableHTML = '<table border="1"><tr>';
-                let mainMenuButton = '<input type="submit" id="submit" value="Return to Main Menu" />';
+                let mainMenuButton = '<input type="submit" id="submit" tabindex="1" value="Return to Main Menu" />';
+                let beginSpan = '<span>'
+                let endSpan = '</span>'
+                let readBooksButton = '<input class="button" type="submit" tabindex="2" value="Books Read" formaction="/books/filterRead/"';
+                let unreadBooksButton = '<input class="button" type="submit" tabindex="3" value="Books Not Read" formaction="/books/filterUnread/"';
+                let sortByTitleButton = '<input class="button" type="submit" tabindex="4" value="Sort By Title" formaction="/books/sortTitle/"';
+                let sortByAuthorButton = '<input class="button" type="submit" tabindex="5" value="Sort By Author" formaction="/books/sortAuthor/"';
+                let option = '<input type="text" id="option" name="option" value="" hidden /><br />'
                 let endForm = '</form>';
 
+                // Set up column headers.
                 Object.keys(bookData[0]).forEach(key => {
-                    // Format the column names
+                    // Format the column names.
                     let keyString = key.toString().replaceAll("_"," ");
                     let keyStringCapitalized = 
                         keyString.substring(0,1).toUpperCase() + keyString.substring(1,);
@@ -31,6 +48,7 @@
 
                 tableHTML += '</tr>';
 
+                // Build the rows with book data.
                 bookData.forEach(item => {
                     tableHTML += '<tr>';
                     Object.values(item).forEach(value => {
@@ -41,7 +59,13 @@
 
                 tableHTML += '</table><br />';
 
-                document.body.innerHTML = form + pageHeader + tableHTML + mainMenuButton + endForm;
+                // Assign html to the document's body.
+                document.body.innerHTML = 
+                    buttonsForm + pageHeader + beginSpan + readBooksButton + endSpan + 
+                    beginSpan + unreadBooksButton + endSpan + 
+                    beginSpan + sortByTitleButton + endSpan + 
+                    beginSpan + sortByAuthorButton + endSpan + endForm + 
+                    tableForm + tableHTML + mainMenuButton + endForm;
                 
             }
 
