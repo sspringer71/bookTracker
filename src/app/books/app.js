@@ -26,7 +26,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 async function selectBookById(id) {
     return supabase
         .from('books')
-        .select('*')
+        .select('id,title,author,publisher,year_published,number_of_pages,description,read')
         .eq('id', id)
         .single();
 }
@@ -71,18 +71,15 @@ async function formatData(data) {
 
 async function showBooksByRead(req, res, read) {
     var getBooksQuery = selectBooksByRead(read);
-    //     .from('books')
-    //     .select('id,title,author,publisher,year_published,number_of_pages,description,read')
-    //     .eq('read', read)
-    //     .order('id');
 
     const { data, error} = await getBooksQuery;
+
+    if (data && data.length == 0) {
+        return res.status(404).json({error: `No records found.`});
+    }
+
     if (error) {
-        if ("The result contains 0 rows" === error.details) {
-            return res.status(404).json({error: `No records found.`});
-        } else {
-            return res.status(500).json({error: error.message});
-        }
+        return res.status(500).json({error: error.message});
     }
     
     // Clean up the data (ex: suppressing the display of "nulls")
@@ -145,7 +142,11 @@ app.get('/books/update/', async(req, res) => {
 
     const { data, error} = await getBooksQuery;
     if (error) {
-        return res.status(404).json({error: `ID ${id} not found.`});
+        if (id && "The result contains 0 rows" === error.details) {
+            return res.status(404).json({error: `ID ${id} not found.`});
+        } else {
+            return res.status(500).json({error: error.message});
+        }
     }
    
     res.render('bookRequestUpdate', {book: data});
@@ -166,13 +167,14 @@ app.get('/books', async(req, res) => {
     }
 
     const { data, error} = await getBooksQuery;
+
+    if (data && data.length == 0) {
+        return res.status(404).json({error: `No records found.`});
+    }
+
     if (error) {
-        if ("The result contains 0 rows" === error.details) {
-            if (id) {
-                return res.status(404).json({error: `ID ${id} not found.`});
-            } else {
-                return res.status(404).json({error: `No records found.`});
-            }
+        if (id && "The result contains 0 rows" === error.details) {
+            return res.status(404).json({error: `ID ${id} not found.`});
         } else {
             return res.status(500).json({error: error.message});
         }
