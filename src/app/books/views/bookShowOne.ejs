@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="../style.css" />
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+	</head>
+	
+	<body>
+		<div>
+			<h1>Book Details</h1>
+			<form method="GET" action="/">
+				<label class="field">Id:</label> <label class="data"> <%=book.id%> </label> <br/>
+				<label class="field">Title:</label> <label class="data"><%=book.title%> </label> <br/>
+				<label class="field">Author:</label> <label class="data"><%=book.author%> </label> <br/>
+				<label class="field">Publisher:</label> <label class="data"><%=book.publisher%> </label> <br />
+				<label class="field">Year Published:</label> <label class="data"><%=book.year_published%> </label> <br />
+				<label class="field">Number of Pages:</label> <label class="data"><%=book.number_of_pages%> </label> <br />
+				<label class="field">Description:</label> <label class="data"><%=book.description%> </label> <br />
+				<label class="field">Read: </label><input type="checkbox" id="read" name="read" readonly /> <br />
+				<!-- hidden read value for populating checkbox -->
+				<input type="text" id="readValue" name="readValue" 
+							value='<%=book.read%>' hidden /><br />
+				<input type="submit" id="submit" value="Return to Main Menu" />
+			</form>
+		</div>
+		
+		<script>
+			$(window).on('load', function() {
+				if ("true" == $("#readValue").val()) {
+         			$("#read").prop( "checked", true );
+				} else {
+					$("#read").prop( "checked", false );
+				}
+				document.getElementById("submit").focus();
+     		});
+		</script>
+	</body>
+</html>

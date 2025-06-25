@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../style.css" />
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+	</head>
+	<body>
+		<h1>Book Tracker</h1>
+		<form method="GET" action="/books">
+            Show all books <br/>
+			<input type="submit" id="showAllBooks" value="Submit" />
+		</form>
+        <form method="GET" action="/books/">
+            Show book by ID
+            <div>Book Id: <input type="number"  min="1" id="id" name="id" /></div>
+			<input type="submit" id="showOneBook" value="Submit" />
+		</form>
+        <form method="GET" action="/books/add/">
+            Add book <br/>
+			<input type="submit" id="addBook" value="Submit" />
+		</form>
+		<form method="GET" action="/books/update/">
+            Update book <br/>
+			<div>Book Id: <input type="number"  min="1" id="updateId" name="updateId"  /></div>
+			<input type="submit" id="updateBook" value="Submit" />
+		</form>
+		<form method="POST" action="/books/delete/">
+            Delete book <br/>
+			<div>Book Id: <input type="number"  min="1" id="deleteId" name="deleteId"  /></div>
+			<input type="submit" id="deleteBook" value="Submit" />
+		</form>
+		<script>
+			$(window).on('load', function() {
+				document.getElementById("showAllBooks").focus();
+     		});
+		</script>
+	</body>
+</html>

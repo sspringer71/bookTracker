@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+		<style>
+			h1 {
+				color: red;
+			}
+			label.field {
+				text-align: left;
+				width: 150px;
+				float: left;
+				font-weight: bold;
+				color: #333;
+			}
+			input.data {
+				text-align: left;
+				width: 500px;
+			}
+			input.data-protected {
+				text-align: left;
+				width: 500px;
+				border: none;
+			}
+			input.checkbox {
+				text-align: left;
+				width: 15px;
+				float: left;
+			}
+		</style>
+
+	</head>
+	
+	<body>
+		<div>
+			<h1>Update Book</h1>
+			<form method="POST" action="/books/update">
+				<label class="field">Id: </label>
+				<input class="data-protected" type="text" id="id" name="id" value='<%=book.id%>' readonly /><br />
+
+				<label class="field">Title: </label>
+				<input class="data" type="text" id="title" name="title" value='<%=book.title%>' 
+							onfocus="this.select()"/><br />
+
+				<label class="field">Author: </label>
+				<input class="data" type="text" id="author" name="author" value='<%=book.author%>'/><br />
+
+				<label class="field">Publisher: </label>
+				<input class="data" type="text" id="publisher" name="publisher" 
+							value='<%=book.publisher%>'/><br />
+
+				<label class="field">Year Published: </label>
+				<input type="text" id="year_published" name="year_published" 
+							value='<%=book.year_published%>'/><br />
+
+				<label class="field">Number of Pages: </label>
+				<input type="text" id="number_of_pages" name="number_of_pages" 
+							value='<%=book.number_of_pages%>'/><br />
+				<label class="field">Description: </label>
+				<input class="data" type="text" id="description" name="description" 
+							value='<%=book.description%>'/><br />
+
+				<label class="field">Read: </label>
+				<input class="checkbox" type="checkbox" id="read" name="read" /><br />
+				
+				<!-- read value -->
+				<input type="text" id="readValue" name="readValue" 
+							value='<%=book.read%>' hidden /><br />
+				<input type="submit" value="Submit" />
+			</form>
+		</div>
+		
+		<script>
+			$(window).on('load', function() {
+				if ("true" == $("#readValue").val()) {
+         			$("#read").prop( "checked", true );
+				} else {
+					$("#read").prop( "checked", false );
+				}
+				document.getElementById("title").focus();
+     		});
+		</script>
+	</body>
+</html>
