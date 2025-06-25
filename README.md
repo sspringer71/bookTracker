@@ -11,7 +11,11 @@ Welcome!  This project deploys a book tracker application.  The application allo
 ### Installation
 - Clone this repository.
 - Download NodeJS:  https://nodejs.org/en/download
-- Create a new Node app.
+- Change directory
+```
+cd .\src\app\books
+```
+- Create a new Node app.  When creating, set the entry point to "app.js".
 ```
 npm init
 ```
@@ -52,8 +56,8 @@ Then open it in your browser:  http://localhost:5000/
 1. Fork the repository.
 2. Create a new branch:  `git checkout -b feature-name`.
 3. Make your changes.
-4. Push your branch:  `git push origin feature-name`.
-5. Create a pull request.
+4. Push your branch:  `git push --set-upstream origin feature-name`.
+5. Create a pull request to merge to develop branch.
 
 ### License
 This project is licensed under the [MIT License](LICENSE).
